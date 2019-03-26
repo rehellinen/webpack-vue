@@ -3,48 +3,63 @@
  *  Create By rehellinen
  *  Create On 2018/11/8 16:41
  */
-const merge = require('webpack-merge')
 const webpack = require('webpack')
-const config = require('./config')
-const {resolve} = require('path')
-const webpackDevServer = require('webpack-dev-server');
+const {promisify} = require('util')
+const portFinder = require('portfinder')
+const merge = require('webpack-merge')
+const webpackDevServer = require('webpack-dev-server')
 const friendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const baseConfig = require('./webpack.base.conf')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const r = path => resolve(__dirname, path)
+const config = require('./config')
+const baseWebpackConf = require('./webpack.base.conf')
+const {logError} = require('./utils')
 
-module.exports = merge(baseConfig, {
+portFinder.basePort = process.env.PORT || config.DEV.PORT
+const getPortPromise = promisify(portFinder.getPort)
+
+const devWebpackConf = merge(baseWebpackConf, {
   mode: 'development',
   output: {
-    publicPath: '/'
+    publicPath: config.DEV.PUBLIC_PATH
   },
-  devtool: config.dev.devtool,
+  devtool: config.DEV.DEV_TOOL,
   devServer: {
+    clientLogLevel: 'warning',
     hot: true,
-    host: config.dev.host,
-    port: config.dev.port,
+    host: process.env.HOST || config.DEV.HOST,
+    port: process.env.PORT || config.DEV.PORT,
     compress: true,
     quiet: true,
-    open: config.dev.autoOpenBrowser,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:9528',
-        pathRewrite: {"^/api" : ""},
-        proxyTimeout: 200000
-      }
-    }
+    open: config.DEV.AUTO_OPEN_BROWSER,
+    proxy: config.DEV.PROXY
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new friendlyErrorsPlugin({
-      compilationSuccessInfo: {
-        messages: [`running at { http://${config.dev.host}:${config.dev.port} }`]
-      },
-      onErrors (severity, errors) {
-        console.log(errors)
-      }
-    })
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
   ]
+})
+
+module.exports = new Promise((resolve, reject) => {
+  getPortPromise()
+    .then(port => {
+      process.env.PORT = port
+      devWebpackConf.devServer.port = port
+
+      devWebpackConf.plugins.push(new friendlyErrorsPlugin({
+        compilationSuccessInfo: {
+          messages: [`running at { http://${config.DEV.HOST}:${port} }`]
+        },
+        onErrors: logError
+      }))
+
+      resolve(devWebpackConf)
+    })
+    .catch(ex => {
+      throw ex
+    })
 })
