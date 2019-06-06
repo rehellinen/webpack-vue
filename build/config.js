@@ -3,7 +3,7 @@
  *  Create By rehellinen
  *  Create On 2018/11/10 22:55
  */
-const {r} = require('./utils')
+const { r } = require('./utils')
 
 module.exports = {
   DEV: {

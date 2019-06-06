@@ -3,7 +3,7 @@
  *  Create By rehellinen
  *  Create On 2019/3/23 15:52
  */
-const {resolve} = require('path')
+const { resolve } = require('path')
 
 // 定位到根目录
 exports.r = path => resolve(__dirname, '../', path)

@@ -8,37 +8,50 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = require('./config')
-const {r,isProduction} = require('./utils')
+const { r, isProduction } = require('./utils')
 
 module.exports = {
   context: r('./'),
   mode: isProduction ? 'production' : 'development',
   entry: {
-    app: './src/index.js',
+    app: `./src/index.js`
   },
   output: {
     path: config.PROD.ASSETS_ROOT,
-    filename: 'js/[name].[hash:5].bundle.js',
-    chunkFilename: 'js/[name].[hash:5].chunk.js',
+    filename: `js/[name].[hash:5].bundle.js`,
+    chunkFilename: `js/[name].[hash:5].chunk.js`,
     publicPath: isProduction
       ? config.PROD.PUBLIC_PATH
       : config.DEV.PUBLIC_PATH
   },
   resolve: {
     alias: {
-      assets: r('./src/assets'),
+      sass: r(`./src/assets/sass`),
+      assets: r(`./src/assets`)
     },
-    extensions: ['.js', '.vue', '.json']
+    modules: [r('node_modules')],
+    extensions: ['.vue', '.js', '.json'],
+    mainFields: ['jsnext:main', 'browser', 'main']
   },
   module: {
     rules: [
       {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [r('src')],
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
+      {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        include: [r('src')],
         exclude: /node_modules/
       },
       {
@@ -54,7 +67,7 @@ module.exports = {
           'css-loader',
           {
             loader: 'sass-loader',
-            options: {indentedSyntax: true}
+            options: { indentedSyntax: true }
           }
         ]
       },
@@ -71,7 +84,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 15000,
+          limit: 15000
         }
       },
       {
@@ -80,7 +93,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 10000
             }
           },
           'image-webpack-loader'
@@ -97,6 +110,9 @@ module.exports = {
     child_process: 'empty'
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(isProduction)
+    })
   ]
 }

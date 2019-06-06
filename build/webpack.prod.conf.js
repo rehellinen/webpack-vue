@@ -3,41 +3,38 @@
  *  Create By rehellinen
  *  Create On 2019/3/23 15:18
  */
-const glob = require('glob')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const PurgecssPlugin = require('purgecss-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
-const {r} = require('./utils')
 const config = require('./config')
 const baseWebpackConf = require('./webpack.base.conf')
 
 const webpackConfig = merge(baseWebpackConf, {
   optimization: {
     splitChunks: {
+      automaticNameDelimiter: '-',
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        },
-        styles: {
-          name: 'styles',
-          test: /\.(sa|c)ss$/,
-          chunks: 'all',
-          enforce: true
+          minChunks: 1,
+          chunks: 'all'
         }
       }
     },
     minimizer: [
       new UglifyJsPlugin({
         parallel: true,
-        cache: true
+        cache: true,
+        uglifyOptions: {
+          output: {
+            beautify: false
+          }
+        }
       }),
       new OptimizeCSSAssetsPlugin({})
     ]
@@ -45,25 +42,23 @@ const webpackConfig = merge(baseWebpackConf, {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
+      filename: 'index.html',
       inject: true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-      },
+      }
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash:5].css',
-      chunkFilename: 'css/[name].[hash:5].css',
-    }),
-    new PurgecssPlugin({
-      paths: glob.sync(r('./src/**/*'), {nodir: true})
+      filename: `css/[name].[hash:5].css`,
+      chunkFilename: `css/[name].[hash:5].css`
     })
   ]
 })
 
 if (config.PROD.BUNDLE_ANALYZER) {
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin)
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = webpackConfig

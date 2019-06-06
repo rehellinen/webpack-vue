@@ -3,23 +3,20 @@
  *  Create By rehellinen
  *  Create On 2018/11/8 16:41
  */
-const webpack = require('webpack')
-const {promisify} = require('util')
+const { promisify } = require('util')
 const portFinder = require('portfinder')
 const merge = require('webpack-merge')
-const webpackDevServer = require('webpack-dev-server')
-const friendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = require('./config')
 const baseWebpackConf = require('./webpack.base.conf')
-const {logError} = require('./utils')
+const { logError } = require('./utils')
 
 portFinder.basePort = process.env.PORT || config.DEV.PORT
 const getPortPromise = promisify(portFinder.getPort)
 
 const devWebpackConf = merge(baseWebpackConf, {
-  mode: 'development',
   output: {
     publicPath: config.DEV.PUBLIC_PATH
   },
@@ -35,12 +32,9 @@ const devWebpackConf = merge(baseWebpackConf, {
     proxy: config.DEV.PROXY
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
-    }),
+    })
   ]
 })
 
@@ -50,7 +44,7 @@ module.exports = new Promise((resolve, reject) => {
       process.env.PORT = port
       devWebpackConf.devServer.port = port
 
-      devWebpackConf.plugins.push(new friendlyErrorsPlugin({
+      devWebpackConf.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
           messages: [`running at { http://${config.DEV.HOST}:${port} }`]
         },
