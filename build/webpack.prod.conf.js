@@ -16,9 +16,11 @@ const baseWebpackConf = require('./webpack.base.conf')
 
 const webpackConfig = merge(baseWebpackConf, {
   optimization: {
+    // code splitting
     splitChunks: {
       automaticNameDelimiter: '-',
       cacheGroups: {
+        // split node_modules
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           minChunks: 1,
@@ -27,6 +29,7 @@ const webpackConfig = merge(baseWebpackConf, {
       }
     },
     minimizer: [
+      // uglify / minimize js
       new UglifyJsPlugin({
         parallel: true,
         cache: true,
@@ -36,6 +39,7 @@ const webpackConfig = merge(baseWebpackConf, {
           }
         }
       }),
+      // optimize / minimize css
       new OptimizeCSSAssetsPlugin({})
     ]
   },
