@@ -3,7 +3,7 @@
  *  Create By rehellinen
  *  Create On 2019/3/23 15:24
  */
-// setting the current environment as the development environment
+// setting the current environment as the production environment
 process.env.NODE_ENV = 'production'
 
 const ora = require('ora')

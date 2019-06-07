@@ -5,14 +5,10 @@
  */
 const { resolve } = require('path')
 
-// 定位到根目录
+// locate to the root directory
 exports.r = path => resolve(__dirname, '../', path)
-// 是否为生产环境
+// judge whether it is production environment
 exports.isProduction = process.env.NODE_ENV === 'production'
-
+// process the errors (not yet completed)
 exports.logError = (severity, errors) => {
-  if (severity !== 'error') return
-  const error = errors[0]
-  if (error.webpackError) console.log(error.webpackError)
-  console.log(`${severity}: ${error.name}\n`)
 }

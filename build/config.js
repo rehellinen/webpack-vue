@@ -6,23 +6,23 @@
 const { r } = require('./utils')
 
 module.exports = {
+  // development environment config
   DEV: {
     HOST: '127.0.0.1',
     PORT: 9527,
     AUTO_OPEN_BROWSER: false,
     USE_ESLINT: true,
     DEV_TOOL: 'cheap-module-eval-source-map',
-
-    // path
     PUBLIC_PATH: '/',
     PROXY: {}
   },
 
+  // production environment config
   PROD: {
-    // path
     ASSETS_ROOT: r('./dist'),
     STATIC_ROOT: r('./dist/static'),
     PUBLIC_PATH: '',
+    // use bundle analyzer plugin by add '--report' in the CLI
     BUNDLE_ANALYZER: process.env.npm_config_report
   }
 }
