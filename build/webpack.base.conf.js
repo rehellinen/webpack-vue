@@ -62,6 +62,7 @@ module.exports = {
         test: /\.sass$/,
         use: [
           isProduction
+            // extract css in production environment
             ? MiniCssExtractPlugin.loader
             : 'vue-style-loader',
           'css-loader',
@@ -75,6 +76,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           isProduction
+            // extract css in production environment
             ? MiniCssExtractPlugin.loader
             : 'vue-style-loader',
           'css-loader'
@@ -82,6 +84,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        // convert to base64
         loader: 'url-loader',
         options: {
           limit: 15000
@@ -91,11 +94,13 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
           {
+            // convert to base64
             loader: 'url-loader',
             options: {
               limit: 10000
             }
           },
+          // compress photos
           'image-webpack-loader'
         ]
       }
@@ -111,6 +116,7 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    // define global variables
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(isProduction)
     })
