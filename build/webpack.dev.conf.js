@@ -1,9 +1,8 @@
 /**
- *  webpack.dev.conf.js.js
+ *  webpack.dev.conf.js
  *  Create By rehellinen
  *  Create On 2018/11/8 16:41
  */
-const { promisify } = require('util')
 const portFinder = require('portfinder')
 const merge = require('webpack-merge')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
@@ -11,10 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = require('./config')
 const baseWebpackConf = require('./webpack.base.conf')
-
-// get the port set by user
 portFinder.basePort = process.env.PORT || config.DEV.PORT
-const getPortPromise = promisify(portFinder.getPort)
 
 const devWebpackConf = merge(baseWebpackConf, {
   output: {
@@ -39,18 +35,16 @@ const devWebpackConf = merge(baseWebpackConf, {
 })
 
 module.exports = new Promise((resolve, reject) => {
-  // search available port automatically
-  getPortPromise()
+  portFinder
+    .getPortPromise()
     .then(port => {
       process.env.PORT = port
       devWebpackConf.devServer.port = port
-
       devWebpackConf.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
           messages: [`running at { http://${config.DEV.HOST}:${port} }`]
         }
       }))
-
       resolve(devWebpackConf)
     })
     .catch(ex => {
