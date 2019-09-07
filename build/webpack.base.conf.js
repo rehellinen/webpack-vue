@@ -1,11 +1,12 @@
 /**
- *  webpack-base.conf.js.js
+ *  webpack-base.conf.js
  *  Create By rehellinen
  *  Create On 2018/11/5 11:37
  */
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const config = require('./config')
 const { r, isProduction } = require('./utils')
@@ -119,6 +120,12 @@ module.exports = {
     // define global variables
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(isProduction)
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: r('static'),
+        to: config.PROD.STATIC_ROOT
+      }
+    ])
   ]
 }
