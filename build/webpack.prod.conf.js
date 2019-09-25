@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
@@ -57,7 +58,13 @@ const webpackConfig = merge(baseWebpackConf, {
     new MiniCssExtractPlugin({
       filename: `css/[name].[hash:5].css`,
       chunkFilename: `css/[name].[hash:5].css`
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: r('static'),
+        to: config.PROD.STATIC_ROOT
+      }
+    ])
   ]
 })
 
