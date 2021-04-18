@@ -4,8 +4,10 @@
   "description": "a webpack4 config for vue",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --progress --config build/webpack.dev.conf.js",
-    "build": "node build/build.js"
+    "dev:mobile": "cross-env RUNTIME_ENV=mobile webpack-dev-server --progress --config build/webpack.dev.conf.js",
+    "dev:pc": "cross-env RUNTIME_ENV=pc webpack-dev-server --progress --config build/webpack.dev.conf.js",
+    "build:mobile": "cross-env RUNTIME_ENV=mobile node build/build.js",
+    "build:pc": "node RUNTIME_ENV=pc build/build.js"
   },
   "author": "rehellinen",
   "license": "ISC",

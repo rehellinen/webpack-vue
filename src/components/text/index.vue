@@ -1,7 +1,7 @@
 <template lang="pug">
   div.text-container(ref="textContainer" :style="textContainerStyle")
     my-image.image(:src="imgSrc")
-    p.text {{text}}
+    p.text(:class="{ 'mobile-text': (RUNTIME_ENV === 'mobile' || type === TypeEnum.AXIS)  }") {{text}}
 </template>
 
 <script>
@@ -29,6 +29,7 @@ export default {
   data () {
     return {
       TypeEnum,
+      RUNTIME_ENV: process.env.RUNTIME_ENV,
       textContainerHeight: 0
     }
   },
@@ -75,6 +76,8 @@ export default {
   position: absolute;
   color: white;
   font-size: 8px;
+}
+.mobile-text {
   transform: scale(0.7)
 }
 </style>

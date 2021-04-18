@@ -107,18 +107,12 @@ module.exports = {
     ]
   },
   node: {
-    setImmediate: false,
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
   },
   plugins: [
     new VueLoaderPlugin(),
     // define global variables
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(isProduction)
+      'process.env.RUNTIME_ENV': JSON.stringify(process.env.RUNTIME_ENV)
     })
   ]
 }

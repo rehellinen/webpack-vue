@@ -34,7 +34,7 @@ export default {
       default: '0'
     },
     id: {
-      type: Boolean,
+      type: Number,
       default: -1
     }
   },

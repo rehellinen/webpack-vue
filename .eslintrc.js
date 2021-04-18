@@ -22,6 +22,6 @@ module.exports = {
     }]
   },
   globals: {
-    PRODUCTION: false
+    RUNTIME_ENV: true
   }
 }

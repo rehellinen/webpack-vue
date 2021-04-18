@@ -75,10 +75,7 @@ export default {
         return
       }
 
-      this.isShowCloud = true
-      setTimeout(() => {
-        this.isShowCloud = false
-      }, 1280)
+      this.showCloud()
     }
   },
   mounted () {
@@ -86,8 +83,15 @@ export default {
     window.addEventListener('resize', () => {
       this.reComputedImgWidth()
     })
+    this.showCloud()
   },
   methods: {
+    showCloud () {
+      this.isShowCloud = true
+      setTimeout(() => {
+        this.isShowCloud = false
+      }, 1280)
+    },
     onIndexChanged (index) {
       this.currentIndex = index
     },

@@ -26,7 +26,10 @@ export default {
 
 <style scoped>
 .wrapper {
-  min-height: 100vh;
-  min-width: 100vw;
+  //height: 100vw;
+  //width: 100vh;
+  //transform: rotate(-90deg);
+  //min-height: 100vh;
+  //min-width: 100vw;
 }
 </style>
