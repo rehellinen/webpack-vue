@@ -1,17 +1,20 @@
 <template lang="pug">
-  div
+  div.wrapper
     my-slide(:imgSrcArr="slideImgSrcArr")
     top-right
+    my-axis
 </template>
 
 <script>
 import MySlide from './components/slide/index'
 import TopRight from './components/topRight/index'
+import MyAxis from './components/axis/index'
 
 export default {
   components: {
     MySlide,
-    TopRight
+    TopRight,
+    MyAxis
   },
   data () {
     return {
@@ -27,5 +30,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.wrapper {
+  min-height: 100vh;
+  min-width: 100vw;
+}
 </style>

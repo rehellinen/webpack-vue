@@ -1,11 +1,16 @@
 <template lang="pug">
   div.text-container(ref="textContainer" :style="textContainerStyle")
-    my-image.image(src="/src/assets/images/slide/textBg.png")
+    my-image.image(:src="imgSrc")
     p.text {{text}}
 </template>
 
 <script>
 import MyImage from '../image'
+
+const TypeEnum = {
+  SLIDE: 'slide',
+  AXIS: 'axis'
+}
 
 export default {
   components: {
@@ -15,25 +20,39 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: TypeEnum.SLIDE
     }
   },
   data () {
     return {
+      TypeEnum,
       textContainerHeight: 0
     }
   },
   computed: {
+    imgSrc () {
+      return this.type === TypeEnum.SLIDE
+        ? '/src/assets/images/slide/textBg.png'
+        : '/src/assets/images/axis/textBg.png'
+    },
     textContainerStyle () {
       return `height: ${this.textContainerHeight}px`
     }
   },
   mounted () {
     this.reComputedTextContainerHeight()
+    window.addEventListener('resize', () => {
+      this.reComputedTextContainerHeight()
+    })
   },
   methods: {
     reComputedTextContainerHeight () {
       const textContainer = this.$refs.textContainer
-      this.textContainerHeight = Math.ceil(textContainer.clientWidth / 3)
+      const ratio = this.type === TypeEnum.SLIDE ? 3 : 3.3
+      this.textContainerHeight = Math.ceil(textContainer.clientWidth / ratio)
     }
   }
 }

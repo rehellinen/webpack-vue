@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.slide-container
+  div.slide-container(:style="imgStyle")
     my-image(
       v-for="(src, index) in imgSrcArr"
       v-show="index === currentIndex"
@@ -28,7 +28,25 @@ export default {
   data () {
     return {
       currentIndex: 0,
-      isShowCloud: false
+      isShowCloud: false,
+      imgWidth: '0px',
+      imgHeight: '0px'
+    }
+  },
+  computed: {
+    imgStyle () {
+      const translateX = this.imgWidth === '100vw'
+        ? 0
+        : -(this.imgWidth.replace('px', '') - document.documentElement.clientWidth) / 2
+      const translateY = this.imgHeight === '100vh'
+        ? 0
+        : -(this.imgHeight.replace('px', '') - document.documentElement.clientHeight) / 2
+      console.log(translateX, translateY)
+      return `
+      height: ${this.imgHeight};
+      width: ${this.imgWidth};
+      transform: translate(${translateX}px, ${translateY}px);
+    `
     }
   },
   watch: {
@@ -43,9 +61,28 @@ export default {
       }, 1280)
     }
   },
+  mounted () {
+    this.reComputedImgWidth()
+    window.addEventListener('resize', () => {
+      this.reComputedImgWidth()
+    })
+  },
   methods: {
     onIndexChanged (index) {
       this.currentIndex = index
+    },
+    reComputedImgWidth () {
+      const ratio = 16 / 9
+      const bodyWidth = document.documentElement.clientWidth
+      const bodyHeight = document.documentElement.clientHeight
+
+      if (bodyWidth / bodyHeight > ratio) {
+        this.imgWidth = '100vw'
+        this.imgHeight = `${Math.ceil(bodyWidth / ratio)}px`
+      } else {
+        this.imgHeight = '100vh'
+        this.imgWidth = `${Math.ceil(bodyHeight * ratio)}px`
+      }
     }
   }
 }
@@ -53,8 +90,8 @@ export default {
 
 <style scoped>
 .slide-container {
-  width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 .cloud {
   position: fixed;
