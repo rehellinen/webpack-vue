@@ -20,7 +20,7 @@ module.exports = {
   // production environment config
   PROD: {
     ASSETS_ROOT: r('./dist'),
-    STATIC_ROOT: r('./dist/static'),
+    STATIC_ROOT: r('./dist/assets'),
     PUBLIC_PATH: '',
     // use bundle analyzer plugin by add '--report' in the CLI
     BUNDLE_ANALYZER: process.env.npm_config_report

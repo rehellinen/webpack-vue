@@ -62,7 +62,7 @@ const webpackConfig = merge(baseWebpackConf, {
     }),
     new CopyWebpackPlugin([
       {
-        from: r('static'),
+        from: r('src/assets'),
         to: config.PROD.STATIC_ROOT
       }
     ])
