@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    my-modal(:isActive.sync="isModalActive")
+    my-modal(:isActive.sync="isModalActive" :id="id")
     div.axis(:style="axisContainerStyle" @mouseover="onMouseover" @mouseout="onMouseout" @click="toOpenModal")
       div(v-show="!isActive")
         my-image.axis-image(src='/src/assets/images/axis/icon@unactive.png')
@@ -32,6 +32,10 @@ export default {
     left: {
       type: String,
       default: '0'
+    },
+    id: {
+      type: Boolean,
+      default: -1
     }
   },
   data () {

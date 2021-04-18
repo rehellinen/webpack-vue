@@ -2,6 +2,9 @@
   div.modal(v-if="isActive")
     my-image.bg-img(src='/src/assets/images/modal/bg.png')
     my-image.close-img(src='/src/assets/images/modal/close.png' isSquare @on-click="onCloseClick")
+    .content
+      div(v-if="id === 301")
+        p id 301 content
 </template>
 
 <script>
@@ -15,6 +18,10 @@ export default {
     isActive: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: Number,
+      default: -1
     }
   },
   methods: {
@@ -45,5 +52,10 @@ export default {
   right: -0.5%;
   top: -0.5%;
   width: 2%;
+}
+.content {
+  position: absolute;
+  z-index: 9999;
+  padding: 2%;
 }
 </style>

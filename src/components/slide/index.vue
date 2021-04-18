@@ -20,6 +20,7 @@
         :top="config.top"
         :left="config.left"
         :text="config.text"
+        :id="config.id"
       )
 </template>
 
@@ -46,7 +47,7 @@ export default {
   data () {
     return {
       axisConfig,
-      currentIndex: 0,
+      currentIndex: 2,
       isShowCloud: false,
       imgWidth: '0px',
       imgHeight: '0px'
