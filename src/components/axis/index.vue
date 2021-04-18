@@ -71,7 +71,7 @@ export default {
 }
 .axis-image {
   width: 50%;
-  margin-left: 30%;
+  margin-left: 25%;
 }
 .axis-image-active {
   width: 100%;

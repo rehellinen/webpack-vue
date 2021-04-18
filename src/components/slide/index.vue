@@ -11,7 +11,7 @@
     my-selector(:currentIndex="currentIndex" @on-index-changed="onIndexChanged")
     div(
       v-for="(configArr, index) in axisConfig"
-      v-show="index === currentIndex"
+      v-if="index === currentIndex"
       :key="index"
     )
       my-axis(

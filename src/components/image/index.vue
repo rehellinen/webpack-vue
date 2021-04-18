@@ -52,7 +52,6 @@ export default {
   mounted () {
     if (this.isSquare) {
       const imgContainer = this.$refs.imgContainer
-      console.log(imgContainer.clientWidth)
       if (imgContainer.clientWidth > 0) {
         this.imgHeight = imgContainer.clientWidth
       }

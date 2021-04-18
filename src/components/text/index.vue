@@ -44,9 +44,6 @@ export default {
   },
   mounted () {
     this.reComputedTextContainerHeight()
-    setTimeout(() => {
-      this.reComputedTextContainerHeight()
-    }, 500)
     window.addEventListener('resize', () => {
       this.reComputedTextContainerHeight()
     })
