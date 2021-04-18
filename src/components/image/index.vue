@@ -10,6 +10,10 @@ export default {
       type: String,
       default: ''
     },
+    href: {
+      type: String,
+      default: ''
+    },
     needActive: {
       type: Boolean,
       default: false
@@ -31,6 +35,9 @@ export default {
   },
   methods: {
     onClick () {
+      if (this.href) {
+        window.open(this.href)
+      }
       this.$emit('on-click', {
         src: this.src
       })
