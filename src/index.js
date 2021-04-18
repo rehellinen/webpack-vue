@@ -6,6 +6,8 @@
 import Vue from 'vue'
 import App from './App'
 
+import './assets/css/reset.css'
+
 /* eslint-disable */
 new Vue({
   el: '#app',

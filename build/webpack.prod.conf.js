@@ -12,6 +12,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
+const { r } = require('./utils')
 const config = require('./config')
 const baseWebpackConf = require('./webpack.base.conf')
 
