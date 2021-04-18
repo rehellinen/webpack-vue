@@ -8,16 +8,31 @@
     )
     my-image.cloud(v-if="isShowCloud" src="/src/assets/images/transition/cloud.webp")
     my-selector(:currentIndex="currentIndex" @on-index-changed="onIndexChanged")
+    div(
+      v-for="(configArr, index) in axisConfig"
+      v-show="index === currentIndex"
+      :key="index"
+    )
+      my-axis(
+        v-for="(config, i) in configArr"
+        :key="i"
+        :top="config.top"
+        :left="config.left"
+        :text="config.text"
+      )
 </template>
 
 <script>
-import MyImage from '../image/index'
-import MySelector from './components/selector/index'
+import MyImage from '../image'
+import MySelector from './components/selector'
+import MyAxis from '../axis'
+import axisConfig from '../../config/axis'
 
 export default {
   components: {
     MyImage,
-    MySelector
+    MySelector,
+    MyAxis
   },
   props: {
     imgSrcArr: {
@@ -27,6 +42,7 @@ export default {
   },
   data () {
     return {
+      axisConfig,
       currentIndex: 0,
       isShowCloud: false,
       imgWidth: '0px',
@@ -41,7 +57,7 @@ export default {
       const translateY = this.imgHeight === '100vh'
         ? 0
         : -(this.imgHeight.replace('px', '') - document.documentElement.clientHeight) / 2
-      console.log(translateX, translateY)
+
       return `
       height: ${this.imgHeight};
       width: ${this.imgWidth};

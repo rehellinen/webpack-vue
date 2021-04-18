@@ -44,6 +44,9 @@ export default {
   },
   mounted () {
     this.reComputedTextContainerHeight()
+    setTimeout(() => {
+      this.reComputedTextContainerHeight()
+    }, 500)
     window.addEventListener('resize', () => {
       this.reComputedTextContainerHeight()
     })
@@ -52,6 +55,9 @@ export default {
     reComputedTextContainerHeight () {
       const textContainer = this.$refs.textContainer
       const ratio = this.type === TypeEnum.SLIDE ? 3 : 3.3
+      if (this.type === TypeEnum.AXIS) {
+        console.log(Math.ceil(textContainer.clientWidth / ratio), textContainer.clientWidth)
+      }
       this.textContainerHeight = Math.ceil(textContainer.clientWidth / ratio)
     }
   }
