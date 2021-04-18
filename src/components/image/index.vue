@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.img-container(@click="onClick")
+  div.img-container(@click="onClick" :class="{ pointer: isPointer }")
     img.img(:src="(needActive && isActive) ? activeSrc : src")
 </template>
 
@@ -19,6 +19,10 @@ export default {
       default: false
     },
     isActive: {
+      type: Boolean,
+      default: false
+    },
+    isPointer: {
       type: Boolean,
       default: false
     }
@@ -54,5 +58,8 @@ export default {
 .img {
   width: 100%;
   height: 100%;
+}
+.pointer {
+  cursor: pointer;
 }
 </style>
