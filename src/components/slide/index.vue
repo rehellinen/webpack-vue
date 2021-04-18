@@ -1,5 +1,6 @@
 <template lang="pug">
   div.slide-container(:style="imgStyle")
+    top-right
     my-image(
       v-for="(src, index) in imgSrcArr"
       v-show="index === currentIndex"
@@ -24,6 +25,7 @@
 
 <script>
 import MyImage from '../image'
+import TopRight from '../topRight'
 import MySelector from './components/selector'
 import MyAxis from '../axis'
 import axisConfig from '../../config/axis'
@@ -32,7 +34,8 @@ export default {
   components: {
     MyImage,
     MySelector,
-    MyAxis
+    MyAxis,
+    TopRight
   },
   props: {
     imgSrcArr: {

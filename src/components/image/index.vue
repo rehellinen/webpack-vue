@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.img-container(@click="onClick" :class="{ pointer: isPointer }")
+  div.img-container(@click="onClick" :class="{ pointer: isPointer }" :style="squareStyle" ref='imgContainer')
     img.img(:src="(needActive && isActive) ? activeSrc : src")
 </template>
 
@@ -25,6 +25,15 @@ export default {
     isPointer: {
       type: Boolean,
       default: false
+    },
+    isSquare: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      imgHeight: 0
     }
   },
   computed: {
@@ -35,6 +44,18 @@ export default {
 
       srcArr.push(`${filename}@active`, postfix)
       return srcArr.join('.')
+    },
+    squareStyle () {
+      return this.isSquare ? `height: ${this.imgHeight}px` : ''
+    }
+  },
+  mounted () {
+    if (this.isSquare) {
+      const imgContainer = this.$refs.imgContainer
+      console.log(imgContainer.clientWidth)
+      if (imgContainer.clientWidth > 0) {
+        this.imgHeight = imgContainer.clientWidth
+      }
     }
   },
   methods: {

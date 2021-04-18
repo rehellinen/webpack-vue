@@ -1,20 +1,24 @@
 <template lang="pug">
-  div.axis(:style="axisContainerStyle" @mouseover="onMouseover" @mouseout="onMouseout")
-    div(v-show="!isActive")
-      my-image.axis-image(src='/src/assets/images/axis/icon@unactive.png')
-      my-text.axis-text(:text="text" type="axis")
-    div(v-show="isActive")
-      my-image.axis-image-active(src='/src/assets/images/axis/icon@active.png')
+  div
+    my-modal(:isActive.sync="isModalActive")
+    div.axis(:style="axisContainerStyle" @mouseover="onMouseover" @mouseout="onMouseout" @click="toOpenModal")
+      div(v-show="!isActive")
+        my-image.axis-image(src='/src/assets/images/axis/icon@unactive.png')
+        my-text.axis-text(:text="text" type="axis")
+      div(v-show="isActive")
+        my-image.axis-image-active(src='/src/assets/images/axis/icon@active.png')
 </template>
 
 <script>
 import MyImage from '../image/index'
 import MyText from '../text/index'
+import MyModal from '../modal/index'
 
 export default {
   components: {
     MyImage,
-    MyText
+    MyText,
+    MyModal
   },
   props: {
     text: {
@@ -32,7 +36,8 @@ export default {
   },
   data () {
     return {
-      isActive: false
+      isActive: false,
+      isModalActive: false
     }
   },
   computed: {
@@ -41,8 +46,10 @@ export default {
     }
   },
   methods: {
+    toOpenModal () {
+      this.isModalActive = true
+    },
     onMouseover () {
-      console.log('over')
       this.isActive = true
     },
     onMouseout () {

@@ -1,17 +1,14 @@
 <template lang="pug">
   div.wrapper
     my-slide(:imgSrcArr="slideImgSrcArr")
-    top-right
 </template>
 
 <script>
 import MySlide from './components/slide/index'
-import TopRight from './components/topRight/index'
 
 export default {
   components: {
-    MySlide,
-    TopRight
+    MySlide
   },
   data () {
     return {
