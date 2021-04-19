@@ -1,6 +1,6 @@
 <template lang="pug">
   div.wrapper
-    my-slide(:imgSrcArr="slideImgSrcArr")
+    my-slide(:imgSrcArr="slideImgSrcArr" v-if="reRenderer")
 </template>
 
 <script>
@@ -12,6 +12,7 @@ export default {
   },
   data () {
     return {
+      reRenderer: true,
       slideImgSrcArr: [
         '/src/assets/images/stars/mohuan.jpg',
         '/src/assets/images/stars/gufeng.jpg',
@@ -19,6 +20,17 @@ export default {
         '/src/assets/images/stars/hefeng.jpg',
         '/src/assets/images/stars/zhanzheng.jpg'
       ]
+    }
+  },
+  async mounted () {
+    if (process.env.RUNTIME_ENV === 'mobile') {
+      window.addEventListener('orientationchange', (event) => {
+        console.log(event)
+        this.reRenderer = false
+        setTimeout(() => {
+          this.reRenderer = true
+        }, 100)
+      })
     }
   }
 }
