@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 .axis {
-  position: fixed;
+  position: absolute;
   width: 50px;
   cursor: pointer;
 }
